@@ -141,6 +141,59 @@ while True:
         else:
             fall_detected_in_history = False
 
+        
+        # fall_field_name = FIELD_MAP.get('field7')
+        #     if fall_field_name and fall_field_name in df_data.columns and not df_data[fall_field_name].isnull().all():
+        #         last_fall_value = int(latest_entry[fall_field_name])
+        #         last_time = latest_entry['created_at'].strftime('%H:%M:%S (%d/%m/%Y)')
+
+        #         # Si la dernière mesure indique une chute, on lance/relance l'alerte
+        #         if last_fall_value == 1:
+        #             alert_counter = ALERT_DURATION_CYCLES
+
+        #         # Si l'alerte est active
+        #         if alert_counter > 0:
+                    
+        #             # 🚨 Big blinking red alert
+        #             st.markdown(
+        #                 f"""
+        #                 <div style='
+        #                     background-color:red;
+        #                     color:white;
+        #                     padding:50px;
+        #                     text-align:center;
+        #                     font-size:50px;
+        #                     font-weight:bold;
+        #                     border-radius:20px;
+        #                     animation: blink 1s infinite;
+        #                 '>
+        #                     🚨🚨 CHUTE DÉTECTÉE 🚨🚨<br>
+        #                     🕒 Heure : {last_time}
+        #                 </div>
+        #                 <style>
+        #                 @keyframes blink {{
+        #                     0% {{opacity: 1;}}
+        #                     50% {{opacity: 0.4;}}
+        #                     100% {{opacity: 1;}}
+        #                 }}
+        #                 </style>
+        #                 """,
+        #                 unsafe_allow_html=True
+        #             )
+        #             st.error(f"🔴 *CHUTE détectée !* ", icon="🚨")
+        #             st.info("ℹ Notification envoyée aux contacts d'urgence.")
+
+        #             # Décrémente le compteur
+        #             alert_counter -= 1
+
+        #         else:
+        #             # Si plus d’alerte active
+        #             st.success("✅ Aucune chute détectée dans la dernière mesure.", icon="👍")
+        #             st.info(f"🕒 Dernier relevé : {last_time}")
+
+        #     else:
+        #         st.warning("Données de détection de chute indisponibles ou invalides.")
+
 
         # --- ROW 1: "Fixed" Alert Status Row ---
         with placeholder_status.container():
@@ -149,7 +202,34 @@ while True:
             with status_col:
                 if st.session_state.alert_active:
                     fall_time = st.session_state.alert_info['created_at'].strftime('%H:%M:%S (%d/%m/%Y)')
-                    st.error(f"🔴 **FALL ALERT ACTIVE!** (Detected at: {fall_time})", icon="🚨")
+                    # st.error(f"🔴 **FALL ALERT ACTIVE!** (Detected at: {fall_time})", icon="🚨")
+                    # 🚨 Big blinking red alert
+                    st.markdown(
+                        f"""
+                        <div style='
+                            background-color:red;
+                            color:white;
+                            padding:50px;
+                            text-align:center;
+                            font-size:50px;
+                            font-weight:bold;
+                            border-radius:20px;
+                            animation: blink 1s infinite;
+                        '>
+                            🚨🚨 CHUTE DÉTECTÉE 🚨🚨<br>
+                            🕒 Heure : {fall_time}
+                        </div>
+                        <style>
+                        @keyframes blink {{
+                            0% {{opacity: 1;}}
+                            50% {{opacity: 0.4;}}
+                            100% {{opacity: 1;}}
+                        }}
+                        </style>
+                        """,
+                        unsafe_allow_html=True
+                    )
+                    # st.error(f"🔴 *CHUTE détectée !* ", icon="🚨")
                     st.info("ℹ️ *EMAIL Notification Sent.*", icon="✉️")
                 else:
                     latest_time = latest_entry['created_at'].strftime('%H:%M:%S (%d/%m/%Y)')
